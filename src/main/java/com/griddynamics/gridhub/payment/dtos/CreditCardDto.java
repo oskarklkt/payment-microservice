@@ -1,3 +1,3 @@
 package com.griddynamics.gridhub.payment.dtos;
 
-public class CreditCardDto {}
+public non-sealed class CreditCardDto extends PaymentMethodDto {}

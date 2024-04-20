@@ -1,3 +1,3 @@
 package com.griddynamics.gridhub.payment.dtos;
 
-public class PaypalDto {}
+public non-sealed class PaypalDto extends PaymentMethodDto {}

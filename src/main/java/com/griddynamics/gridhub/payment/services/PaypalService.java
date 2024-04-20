@@ -1,5 +1,6 @@
 package com.griddynamics.gridhub.payment.services;
 
+import com.griddynamics.gridhub.payment.mappers.PaymentMethodDtoPaypalDtoMapper;
 import com.griddynamics.gridhub.payment.mappers.PaypalDtoMapper;
 import com.griddynamics.gridhub.payment.models.PaymentMethod;
 import com.griddynamics.gridhub.payment.repositories.PaypalRepository;
@@ -11,6 +12,7 @@ import java.util.Optional;
 public class PaypalService implements PaymentService {
     private final PaypalRepository paypalRepository;
     private final PaypalDtoMapper paypalDtoMapper;
+    private final PaymentMethodDtoPaypalDtoMapper paymentMethodDtoPaypalDtoMapper;
 
     @Override
     public void save() {
