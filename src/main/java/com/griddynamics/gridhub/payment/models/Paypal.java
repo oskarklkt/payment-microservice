@@ -1,3 +1,3 @@
 package com.griddynamics.gridhub.payment.models;
 
-public class Paypal extends PaymentMethod{}
+public non-sealed class Paypal extends PaymentMethod{}

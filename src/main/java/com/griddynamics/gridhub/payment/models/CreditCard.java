@@ -1,3 +1,3 @@
 package com.griddynamics.gridhub.payment.models;
 
-public class CreditCard extends PaymentMethod {}
+public non-sealed class CreditCard extends PaymentMethod {}

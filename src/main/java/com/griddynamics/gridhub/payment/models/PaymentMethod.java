@@ -1,3 +1,3 @@
 package com.griddynamics.gridhub.payment.models;
 
-public class PaymentMethod {}
+public sealed class PaymentMethod permits Paypal, CreditCard {}
