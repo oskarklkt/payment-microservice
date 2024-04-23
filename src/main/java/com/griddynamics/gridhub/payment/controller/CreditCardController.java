@@ -8,7 +8,7 @@ import java.util.List;
 
 @AllArgsConstructor
 public class CreditCardController implements RestController {
-  CreditCardService creditCardService;
+  private final CreditCardService creditCardService;
 
   public CreditCardDto save(Long userId, CreditCardDto creditCardDto) {
     return creditCardService.save(userId, creditCardDto);
