@@ -19,7 +19,8 @@ public class ValidationUtil {
   }
 
   private boolean isValidType(String type) {
-    return type != null && type.matches("Credit Card|Paypal");
+    return type != null
+        && (type.equalsIgnoreCase("credit card") || type.equalsIgnoreCase("paypal"));
   }
 
   private boolean isValidCvv(String cvv) {

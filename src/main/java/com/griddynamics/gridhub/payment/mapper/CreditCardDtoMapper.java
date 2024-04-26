@@ -10,8 +10,8 @@ public class CreditCardDtoMapper implements Function<CreditCard, CreditCardDto> 
   @Override
   public CreditCardDto apply(CreditCard creditCard) {
     return CreditCardDto.builder()
-        .paymentType(creditCard.getPaymentType())
         .cardHolderName(creditCard.getCardHolderName())
+        .paymentType(creditCard.getPaymentType())
         .cardNumber(creditCard.getCardNumber())
         .expirationDate(creditCard.getExpirationDate())
         .cvv(creditCard.getCvv())

@@ -17,7 +17,13 @@ class CreditCardControllerTest {
     void setUp() {
         creditCardService = Mockito.mock(CreditCardService.class);
         creditCardController = new CreditCardController(creditCardService);
-        creditCardDto = new CreditCardDto("Credit Card", "John Doe", "1234567890123456", "12/24", "321");
+        creditCardDto = CreditCardDto.builder()
+                .paymentType("Credit Card")
+                .cardHolderName("John Doe")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("321")
+                .build();
     }
 
     @Test

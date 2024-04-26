@@ -25,27 +25,27 @@ public class CreditCardController implements RestController<CreditCardDto> {
   }
 
   public void delete(Long paymentMethodId) {
-    try{
-        creditCardService.delete(paymentMethodId);
-        } catch (NoSuchElementException e) {
-        log.error("{}: {}", e.getMessage(), e.getStatusCode());
+    try {
+      creditCardService.delete(paymentMethodId);
+    } catch (NoSuchElementException e) {
+      log.error("{}: {}", e.getMessage(), e.getStatusCode());
     }
   }
 
   public CreditCardDto update(Long paymentId, Long userId, CreditCardDto creditCardDto) {
-    try{
+    try {
       return creditCardService.update(paymentId, userId, creditCardDto);
     } catch (BaseException e) {
-        log.error("{}: {}", e.getMessage(), e.getStatusCode());
+      log.error("{}: {}", e.getMessage(), e.getStatusCode());
     }
     return null;
   }
 
   public List<CreditCardDto> get(Long userId) {
-    try{
-        return creditCardService.get(userId);
-        } catch (NoSuchElementException e) {
-            log.error("{}: {}", e.getMessage(), e.getStatusCode());
+    try {
+      return creditCardService.get(userId);
+    } catch (NoSuchElementException e) {
+      log.error("{}: {}", e.getMessage(), e.getStatusCode());
     }
     return null;
   }

@@ -2,14 +2,13 @@ package com.griddynamics.gridhub.payment.dto;
 
 import com.google.gson.GsonBuilder;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
 @Getter
-@AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class CreditCardDto extends PaymentMethodDto {
-  private String paymentType;
+@EqualsAndHashCode(callSuper = true)
+public non-sealed class CreditCardDto extends PaymentMethodDto {
   private String cardHolderName;
   private String cardNumber;
   private String expirationDate;

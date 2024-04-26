@@ -14,8 +14,20 @@ class ValidationUtilTest {
 
     @Test
     public void testValidateCreditCard() {
-        CreditCardDto validCard = new CreditCardDto("Credit Card", "John Doe", "1234567890123456", "12/24", "123");
-        CreditCardDto invalidCard = new CreditCardDto("Credit Card", "John Doe", "1234", "12/24", "123");
+        CreditCardDto validCard = CreditCardDto.builder()
+                .paymentType("Credit Card")
+                .cardHolderName("John Doe")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build();
+        CreditCardDto invalidCard = CreditCardDto.builder()
+                .paymentType("Credit Card")
+                .cardHolderName("John Doe")
+                .cardNumber("1234")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build();
 
         assertTrue(validator.validateCreditCard(validCard));
         assertFalse(validator.validateCreditCard(invalidCard));
@@ -24,8 +36,15 @@ class ValidationUtilTest {
     @Test
     public void testIsElementInDatabase() {
         Map<Long, CreditCard> database = new HashMap<>();
-        database.put(1L, new CreditCard(1L, 123L, "Credit Card", "John Doe", "1234567890123456", "12/24", "123"));
-
+        database.put(1L, CreditCard.builder()
+                .id(1L)
+                .userId(123L)
+                .paymentType("Credit Card")
+                .cardHolderName("John Doe")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build());
         assertTrue(validator.isElementInDatabase(1L, database));
         assertFalse(validator.isElementInDatabase(2L, database));
     }

@@ -21,7 +21,15 @@ class CreditCardRepositoryTest {
 
     @Test
     public void testSaveNewCard() {
-        CreditCard newCard = new CreditCard(1L, 1L, "Credit Card", "Test", "1234567890123456", "12/24", "123");
+        CreditCard newCard = CreditCard.builder()
+                .id(1L)
+                .userId(1L)
+                .paymentType("Credit Card")
+                .cardHolderName("Test")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build();
         CreditCard savedCard = repository.save(newCard);
         assertEquals(newCard, savedCard);
         assertEquals(1, CreditCardRepository.getDb().size());
@@ -29,7 +37,15 @@ class CreditCardRepositoryTest {
 
     @Test
     public void testDeleteCard() {
-        CreditCard card = new CreditCard(1L, 1L, "Credit Card", "Test", "1234567890123456", "12/24", "123");
+        CreditCard card = CreditCard.builder()
+                .id(1L)
+                .userId(1L)
+                .paymentType("Credit Card")
+                .cardHolderName("Test")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build();
         repository.save(card);
         repository.delete(1L);
         assertFalse(CreditCardRepository.getDb().containsKey(1L));
@@ -37,7 +53,15 @@ class CreditCardRepositoryTest {
 
     @Test
     public void testUpdateCard() {
-        CreditCard card = new CreditCard(1L, 1L, "Credit Card", "Test", "1234567890123456", "12/24", "123");
+        CreditCard card = CreditCard.builder()
+                .id(1L)
+                .userId(1L)
+                .paymentType("Credit Card")
+                .cardHolderName("Test")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build();
         repository.save(card);
         card.setExpirationDate("12/25");  // Change expiry date
         CreditCard updatedCard = repository.update(card);
@@ -47,9 +71,33 @@ class CreditCardRepositoryTest {
 
     @Test
     public void testGetCardsByUserId() {
-        repository.save(new CreditCard(1L, 1L, "Credit Card", "Test", "1234567890123456", "12/24", "123"));
-        repository.save(new CreditCard(2L, 1L, "Credit Card", "Test", "1234567890127456", "12/24", "123"));
-        repository.save(new CreditCard(3L, 1L, "Credit Card", "Test", "1234567890121456", "12/24", "123"));
+        repository.save(CreditCard.builder()
+                .id(1L)
+                .userId(1L)
+                .paymentType("Credit Card")
+                .cardHolderName("Test")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build());
+        repository.save(CreditCard.builder()
+                .id(2L)
+                .userId(1L)
+                .paymentType("Credit Card")
+                .cardHolderName("Test")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build());
+        repository.save(CreditCard.builder()
+                .id(3L)
+                .userId(1L)
+                .paymentType("Credit Card")
+                .cardHolderName("Test")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build());
 
         Optional<List<CreditCard>> result = repository.get(1L);
         assertTrue(result.isPresent());
@@ -58,7 +106,15 @@ class CreditCardRepositoryTest {
 
     @Test
     public void testGetNextId() {
-        repository.save(new CreditCard(1L, 1L, "Credit Card", "Test", "1234567890123456", "12/24", "123"));
+        repository.save(CreditCard.builder()
+                .id(1L)
+                .userId(1L)
+                .paymentType("Credit Card")
+                .cardHolderName("Test")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("123")
+                .build());
         assertEquals(Long.valueOf(2), CreditCardRepository.getNextId());
     }
 }

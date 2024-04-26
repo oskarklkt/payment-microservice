@@ -28,7 +28,13 @@ class CreditCardServiceTest {
         creditCardMapper = new CreditCardMapper();
         validationUtil = new ValidationUtil();
         creditCardService = new CreditCardService(creditCardRepository, creditCardDtoMapper, validationUtil, creditCardMapper);
-        creditCardDto = new CreditCardDto("Credit Card", "John Doe", "1234567890123456", "12/24", "123");
+        creditCardDto = CreditCardDto.builder()
+                .paymentType("Credit Card")
+                .cardHolderName("John Doe")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("321")
+                .build();
     }
 
     @AfterEach
@@ -42,6 +48,7 @@ class CreditCardServiceTest {
         creditCardService.save(1L, creditCardDto);
         //then
         assertEquals(1, CreditCardRepository.getDb().size());
+        assertEquals(1L, CreditCardRepository.getDb().get(1L).getUserId());
     }
 
     @Test
@@ -74,10 +81,18 @@ class CreditCardServiceTest {
     void update() {
         //given
         creditCardService.save(1L, creditCardDto);
-        CreditCardDto updatedCreditCardDto = new CreditCardDto("Credit Card", "John Doe", "1234567890123456", "12/24", "321");
+        CreditCardDto updatedCreditCardDto = CreditCardDto.builder()
+                .paymentType("Credit Card")
+                .cardHolderName("John Doe")
+                .cardNumber("1234567890123456")
+                .expirationDate("12/24")
+                .cvv("321")
+                .build();
         //when
         creditCardService.update(1L, 1L, updatedCreditCardDto);
-        //then
+    // then
+    CreditCardDto creditCardDto = creditCardDtoMapper.apply(CreditCardRepository.getDb().get(1L));
+
         assertEquals(updatedCreditCardDto, creditCardDtoMapper.apply(CreditCardRepository.getDb().get(1L)));
     }
 
