@@ -1,12 +1,10 @@
 package com.griddynamics.gridhub.payment.model;
 
 import com.google.gson.GsonBuilder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode
-@Getter
+@Data
 @SuperBuilder
 public sealed class PaymentMethod permits CreditCard {
   private Long id;

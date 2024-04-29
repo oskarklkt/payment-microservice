@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
-@Getter
 @EqualsAndHashCode(callSuper = true)
 public non-sealed class CreditCardDto extends PaymentMethodDto {
   private String cardHolderName;

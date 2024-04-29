@@ -3,8 +3,7 @@ package com.griddynamics.gridhub.payment.model;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Getter
-@Setter
+@Data
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public non-sealed class CreditCard extends PaymentMethod {

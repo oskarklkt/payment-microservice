@@ -8,7 +8,9 @@ import com.griddynamics.gridhub.payment.repository.CreditCardRepository;
 import com.griddynamics.gridhub.payment.service.CreditCardService;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
 import lombok.Generated;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class App {
   @Generated
   // added @Generated annotation to not count this method in test coverage
@@ -56,9 +58,9 @@ public class App {
             .expirationDate("07/23")
             .cvv("123")
             .build());
-    System.out.println(creditCardController.get(1L));
-    System.out.println(creditCardController.get(2L));
-    System.out.println(creditCardController.get(3L));
+    log.info("{}", creditCardController.get(1L));
+    log.info("{}", creditCardController.get(2L));
+    log.info("{}", creditCardController.get(3L));
     creditCardController.delete(2L);
     creditCardController.delete(3L);
     creditCardController.update(
@@ -71,6 +73,6 @@ public class App {
             .expirationDate("12/23")
             .cvv("123")
             .build());
-    System.out.println(creditCardController.get(1L));
+    log.info("{}", creditCardController.get(1L));
   }
 }
