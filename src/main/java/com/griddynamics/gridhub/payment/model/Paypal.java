@@ -8,5 +8,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public non-sealed class Paypal extends PaymentMethod {
-    private String email;
+  private String email;
 }

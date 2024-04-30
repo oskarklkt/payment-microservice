@@ -8,5 +8,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
 public non-sealed class PaypalDto extends PaymentMethodDto {
-    private String email;
+  private String email;
 }

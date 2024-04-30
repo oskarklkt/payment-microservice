@@ -32,7 +32,7 @@ public class CreditCardController implements CrudRestController<CreditCardDto> {
     }
   }
 
-  //todo When we will add spring and @Controller, we will return 500 status code instead of null
+  // todo When we will add spring and @Controller, we will return 500 status code instead of null
   public CreditCardDto update(Long paymentId, Long userId, CreditCardDto creditCardDto) {
     try {
       return creditCardService.update(paymentId, userId, creditCardDto);
@@ -42,7 +42,7 @@ public class CreditCardController implements CrudRestController<CreditCardDto> {
     return null;
   }
 
-  //todo When we will add spring and @Controller, we will return 404(?) status code instead of null
+  // todo When we will add spring and @Controller, we will return 404(?) status code instead of null
   public List<CreditCardDto> get(Long userId) {
     try {
       return creditCardService.get(userId);
