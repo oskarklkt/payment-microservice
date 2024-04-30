@@ -26,7 +26,7 @@ docker-compose -f "docker-compose-postgres.yml" up
 {
   "id": "Long",
   "userId": "Long",
-  "paymentType": "String",
+  "paymentType": ENUM (CREDIT_CARD/PAYPAL) ,
   "cardHolderName": "String",
   "cardNumber": "String",
   "expirationDate": "string",
@@ -38,7 +38,7 @@ docker-compose -f "docker-compose-postgres.yml" up
 ### CreditCardDto
 ```json
 {
-  "paymentType": "String",
+  "paymentType": ENUM (CREDIT_CARD/PAYPAL),
   "cardHolderName": "String",
   "cardNumber": "String",
   "expirationDate": "string",
