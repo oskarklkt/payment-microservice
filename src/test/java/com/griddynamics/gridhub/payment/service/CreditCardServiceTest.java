@@ -1,6 +1,7 @@
 package com.griddynamics.gridhub.payment.service;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
+import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.exception.CreditCardException;
 import com.griddynamics.gridhub.payment.exception.NoSuchElementException;
 import com.griddynamics.gridhub.payment.mapper.CreditCardDtoMapper;
@@ -29,7 +30,7 @@ class CreditCardServiceTest {
         validationUtil = new ValidationUtil();
         creditCardService = new CreditCardService(creditCardRepository, creditCardDtoMapper, validationUtil, creditCardMapper);
         creditCardDto = CreditCardDto.builder()
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("John Doe")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
@@ -82,7 +83,7 @@ class CreditCardServiceTest {
         //given
         creditCardService.save(1L, creditCardDto);
         CreditCardDto updatedCreditCardDto = CreditCardDto.builder()
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("John Doe")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")

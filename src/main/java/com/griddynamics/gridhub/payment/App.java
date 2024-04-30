@@ -2,6 +2,7 @@ package com.griddynamics.gridhub.payment;
 
 import com.griddynamics.gridhub.payment.controller.CreditCardController;
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
+import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.mapper.CreditCardDtoMapper;
 import com.griddynamics.gridhub.payment.mapper.CreditCardMapper;
 import com.griddynamics.gridhub.payment.repository.CreditCardRepository;
@@ -25,7 +26,7 @@ public class App {
     creditCardController.save(
         1L,
         CreditCardDto.builder()
-            .paymentType("credit card")
+            .paymentType(PaymentType.CREDIT_CARD)
             .cardNumber("1234567890123456")
             .cardHolderName("John Doe")
             .expirationDate("12/23")
@@ -34,7 +35,7 @@ public class App {
     creditCardController.save(
         2L,
         CreditCardDto.builder()
-            .paymentType("credit card")
+            .paymentType(PaymentType.CREDIT_CARD)
             .cardNumber("1234567890123457")
             .cardHolderName("John Deere")
             .expirationDate("11/23")
@@ -43,7 +44,7 @@ public class App {
     creditCardController.save(
         3L,
         CreditCardDto.builder()
-            .paymentType("credit card")
+            .paymentType(PaymentType.CREDIT_CARD)
             .cardNumber("1234567898123456")
             .cardHolderName("Joaquin Phoenix")
             .expirationDate("07/23")
@@ -52,7 +53,7 @@ public class App {
     creditCardController.save(
         1L,
         CreditCardDto.builder()
-            .paymentType("credit card")
+            .paymentType(PaymentType.CREDIT_CARD)
             .cardNumber("1234567898123456")
             .cardHolderName("Adam")
             .expirationDate("07/23")
@@ -67,7 +68,7 @@ public class App {
         1L,
         1L,
         CreditCardDto.builder()
-            .paymentType("credit card")
+            .paymentType(PaymentType.CREDIT_CARD)
             .cardNumber("1234567890123456")
             .cardHolderName("Oskar Doe")
             .expirationDate("12/23")

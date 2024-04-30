@@ -1,6 +1,7 @@
 package com.griddynamics.gridhub.payment.mapper;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
+import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class CreditCardDtoMapperTest {
     CreditCard creditCard = CreditCard.builder()
             .id(1L)
             .userId(123L)
-            .paymentType("Credit Card")
+            .paymentType(PaymentType.CREDIT_CARD)
             .cardHolderName("John Doe")
             .cardNumber("1234567890123456")
             .expirationDate("12/24")

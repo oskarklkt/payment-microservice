@@ -1,6 +1,7 @@
 package com.griddynamics.gridhub.payment.util;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
+import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +16,14 @@ class ValidationUtilTest {
     @Test
     public void testValidateCreditCard() {
         CreditCardDto validCard = CreditCardDto.builder()
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("John Doe")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
                 .cvv("123")
                 .build();
         CreditCardDto invalidCard = CreditCardDto.builder()
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("John Doe")
                 .cardNumber("1234")
                 .expirationDate("12/24")
@@ -39,7 +40,7 @@ class ValidationUtilTest {
         database.put(1L, CreditCard.builder()
                 .id(1L)
                 .userId(123L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("John Doe")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")

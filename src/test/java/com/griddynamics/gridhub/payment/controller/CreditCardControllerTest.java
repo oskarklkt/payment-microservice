@@ -1,6 +1,7 @@
 package com.griddynamics.gridhub.payment.controller;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
+import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.service.CreditCardService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ class CreditCardControllerTest {
         creditCardService = Mockito.mock(CreditCardService.class);
         creditCardController = new CreditCardController(creditCardService);
         creditCardDto = CreditCardDto.builder()
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("John Doe")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")

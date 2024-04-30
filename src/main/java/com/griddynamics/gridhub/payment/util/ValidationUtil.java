@@ -18,11 +18,6 @@ public class ValidationUtil {
     return expirationDate != null && expirationDate.matches("^(0[1-9]|1[0-2])/[0-9]{2}$");
   }
 
-  private boolean isValidType(String type) {
-    return type != null
-        && (type.equalsIgnoreCase("credit card") || type.equalsIgnoreCase("paypal"));
-  }
-
   private boolean isValidCvv(String cvv) {
     return cvv != null && cvv.matches("^[0-9]{3}$");
   }
@@ -31,8 +26,7 @@ public class ValidationUtil {
     return isValidCardNumber(creditCardDto.getCardNumber())
         && isValidCardHolder(creditCardDto.getCardHolderName())
         && isValidExpirationDate(creditCardDto.getExpirationDate())
-        && isValidCvv(creditCardDto.getCvv())
-        && isValidType(creditCardDto.getPaymentType());
+        && isValidCvv(creditCardDto.getCvv());
   }
 
   public boolean isElementInDatabase(Long id, Map<Long, CreditCard> database) {

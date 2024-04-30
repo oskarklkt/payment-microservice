@@ -1,5 +1,6 @@
 package com.griddynamics.gridhub.payment.repository;
 
+import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class CreditCardRepositoryTest {
         CreditCard newCard = CreditCard.builder()
                 .id(1L)
                 .userId(1L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("Test")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
@@ -40,7 +41,7 @@ class CreditCardRepositoryTest {
         CreditCard card = CreditCard.builder()
                 .id(1L)
                 .userId(1L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("Test")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
@@ -56,7 +57,7 @@ class CreditCardRepositoryTest {
         CreditCard card = CreditCard.builder()
                 .id(1L)
                 .userId(1L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("Test")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
@@ -74,7 +75,7 @@ class CreditCardRepositoryTest {
         repository.save(CreditCard.builder()
                 .id(1L)
                 .userId(1L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("Test")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
@@ -83,7 +84,7 @@ class CreditCardRepositoryTest {
         repository.save(CreditCard.builder()
                 .id(2L)
                 .userId(1L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("Test")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
@@ -92,7 +93,7 @@ class CreditCardRepositoryTest {
         repository.save(CreditCard.builder()
                 .id(3L)
                 .userId(1L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("Test")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
@@ -109,7 +110,7 @@ class CreditCardRepositoryTest {
         repository.save(CreditCard.builder()
                 .id(1L)
                 .userId(1L)
-                .paymentType("Credit Card")
+                .paymentType(PaymentType.CREDIT_CARD)
                 .cardHolderName("Test")
                 .cardNumber("1234567890123456")
                 .expirationDate("12/24")
