@@ -55,7 +55,7 @@ docker-compose -f "docker-compose-postgres.yml" up
 
 ![Payment-Class-Diagram](/uploads/6fafe16acf80536750bc76a9dbee73f4/Payment-Class-Diagram.png)
 
-## Database ERD (May change later if we add Paypal)
+## Database ERD 
 
-![Gridhub_Payment_Microservice-2024-04-26_15-14](/uploads/22d1cc634a99a991ecf573bacb520da0/Gridhub_Payment_Microservice-2024-04-26_15-14.png)
+![Gridhub_Payment_Microservice-2024-04-30_10-42](/uploads/288e5ef35f84289231c395191fb73491/Gridhub_Payment_Microservice-2024-04-30_10-42.png)
 
