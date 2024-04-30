@@ -91,9 +91,7 @@ class CreditCardServiceTest {
                 .build();
         //when
         creditCardService.update(1L, 1L, updatedCreditCardDto);
-    // then
-    CreditCardDto creditCardDto = creditCardDtoMapper.apply(CreditCardRepository.getDb().get(1L));
-
+         // then
         assertEquals(updatedCreditCardDto, creditCardDtoMapper.apply(CreditCardRepository.getDb().get(1L)));
     }
 

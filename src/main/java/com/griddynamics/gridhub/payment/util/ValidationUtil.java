@@ -1,7 +1,8 @@
 package com.griddynamics.gridhub.payment.util;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
-import com.griddynamics.gridhub.payment.model.CreditCard;
+import com.griddynamics.gridhub.payment.dto.PaypalDto;
+import com.griddynamics.gridhub.payment.model.PaymentMethod;
 
 import java.util.Map;
 
@@ -29,7 +30,15 @@ public class ValidationUtil {
         && isValidCvv(creditCardDto.getCvv());
   }
 
-  public boolean isElementInDatabase(Long id, Map<Long, CreditCard> database) {
+  public boolean isElementInDatabase(Long id, Map<Long, ? extends PaymentMethod> database) {
     return database.containsKey(id);
+  }
+
+  private boolean isValidEmail(String email) {
+    return email != null && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
+  }
+
+  public boolean validatePaypal(PaypalDto paypalDto) {
+    return isValidEmail(paypalDto.getEmail());
   }
 }

@@ -1,15 +1,17 @@
 package com.griddynamics.gridhub.payment.service;
 
 import com.griddynamics.gridhub.payment.dto.PaypalDto;
+import com.griddynamics.gridhub.payment.exception.NoSuchElementException;
+import com.griddynamics.gridhub.payment.exception.PaypalException;
 import com.griddynamics.gridhub.payment.mapper.PaypalDtoMapper;
 import com.griddynamics.gridhub.payment.mapper.PaypalMapper;
+import com.griddynamics.gridhub.payment.model.Paypal;
 import com.griddynamics.gridhub.payment.repository.PaypalRepository;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 
-// todo implement paypal service
 @AllArgsConstructor
 public class PaypalService implements PaymentService<PaypalDto> {
   private final PaypalRepository paypalRepository;
@@ -19,19 +21,40 @@ public class PaypalService implements PaymentService<PaypalDto> {
 
   @Override
   public PaypalDto save(Long userId, PaypalDto paypalDto) {
-    return null;
+    if (!validationUtil.validatePaypal(paypalDto)) {
+      throw new PaypalException("Invalid paypal data");
+    }
+    Paypal paypal = paypalMapper.apply(PaypalRepository.getNextId(), userId, paypalDto);
+    return paypalDtoMapper.apply(paypalRepository.save(paypal));
   }
 
   @Override
-  public void delete(Long paymentMethodId) {}
+  public void delete(Long paymentMethodId) {
+    if (!validationUtil.isElementInDatabase(paymentMethodId, PaypalRepository.getDb())) {
+      throw new NoSuchElementException("No such element in paypal database");
+    }
+    paypalRepository.delete(paymentMethodId);
+  }
 
   @Override
-  public PaypalDto update(Long paymentId, Long userId, PaypalDto paypalDto) {
-    return null;
+  public PaypalDto update(Long paymentMethodId, Long userId, PaypalDto paypalDto) {
+    if (!validationUtil.isElementInDatabase(paymentMethodId, PaypalRepository.getDb())) {
+      throw new NoSuchElementException("No such element in paypal database");
+    }
+    if (!validationUtil.validatePaypal(paypalDto)) {
+      throw new PaypalException("Invalid paypal data");
+    }
+    Paypal paypal = paypalMapper.apply(paymentMethodId, userId, paypalDto);
+    return paypalDtoMapper.apply(paypalRepository.update(paypal));
   }
 
   @Override
   public List<PaypalDto> get(Long userId) {
-    return List.of();
+    return paypalRepository
+        .get(userId)
+        .orElseThrow(() -> new NoSuchElementException("No such user in paypal database"))
+        .stream()
+        .map(paypalDtoMapper)
+        .toList();
   }
 }

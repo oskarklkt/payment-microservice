@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-// todo: implement the repository
 public class PaypalRepository implements Repository<Paypal> {
 
   @Getter

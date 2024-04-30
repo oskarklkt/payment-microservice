@@ -2,6 +2,7 @@ package com.griddynamics.gridhub.payment.repository;
 
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.model.CreditCard;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Optional;
@@ -17,6 +18,11 @@ class CreditCardRepositoryTest {
     @BeforeEach
     public void setup() {
         repository = new CreditCardRepository();
+        CreditCardRepository.getDb().clear();
+    }
+
+    @AfterEach
+    public void tearDown() {
         CreditCardRepository.getDb().clear();
     }
 
