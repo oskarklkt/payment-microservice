@@ -2,25 +2,28 @@ package com.griddynamics.gridhub.payment.util;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
 import com.griddynamics.gridhub.payment.dto.PaypalDto;
-import com.griddynamics.gridhub.payment.model.PaymentMethod;
-
-import java.util.Map;
 
 public class ValidationUtil {
+
+  private final static String CARD_NUMBER_REGEX = "^[0-9]{16}$";
+  private final static String CARD_HOLDER_REGEX = "^[a-zA-Z ]+$";
+  private final static String CVV_REGEX = "^[0-9]{3}$";
+  private final static String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+  private final static String EXPIRATION_DATE_REGEX = "^(0[1-9]|1[0-2])/[0-9]{2}$";
   private boolean isValidCardNumber(String cardNumber) {
-    return cardNumber != null && cardNumber.matches("^[0-9]{16}$");
+    return cardNumber != null && cardNumber.matches(CARD_NUMBER_REGEX);
   }
 
   private boolean isValidCardHolder(String cardHolder) {
-    return cardHolder != null && cardHolder.matches("^[a-zA-Z ]+$");
+    return cardHolder != null && cardHolder.matches(CARD_HOLDER_REGEX);
   }
 
   private boolean isValidExpirationDate(String expirationDate) {
-    return expirationDate != null && expirationDate.matches("^(0[1-9]|1[0-2])/[0-9]{2}$");
+    return expirationDate != null && expirationDate.matches(EXPIRATION_DATE_REGEX);
   }
 
   private boolean isValidCvv(String cvv) {
-    return cvv != null && cvv.matches("^[0-9]{3}$");
+    return cvv != null && cvv.matches(CVV_REGEX);
   }
 
   public boolean validateCreditCard(CreditCardDto creditCardDto) {
@@ -30,12 +33,8 @@ public class ValidationUtil {
         && isValidCvv(creditCardDto.getCvv());
   }
 
-  public boolean isElementInDatabase(Long id, Map<Long, ? extends PaymentMethod> database) {
-    return database.containsKey(id);
-  }
-
   private boolean isValidEmail(String email) {
-    return email != null && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$");
+    return email != null && email.matches(EMAIL_REGEX);
   }
 
   public boolean validatePaypal(PaypalDto paypalDto) {

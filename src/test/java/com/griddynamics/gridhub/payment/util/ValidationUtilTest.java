@@ -46,7 +46,7 @@ class ValidationUtilTest {
                 .expirationDate("12/24")
                 .cvv("123")
                 .build());
-        assertTrue(validator.isElementInDatabase(1L, database));
-        assertFalse(validator.isElementInDatabase(2L, database));
+        assertTrue(database.containsKey(1L));
+        assertFalse(database.containsKey(2L));
     }
 }

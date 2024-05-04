@@ -30,7 +30,7 @@ public class PaypalService implements PaymentService<PaypalDto> {
 
   @Override
   public void delete(Long paymentMethodId) {
-    if (!validationUtil.isElementInDatabase(paymentMethodId, PaypalRepository.getDb())) {
+    if (!paypalRepository.isContains(paymentMethodId)) {
       throw new NoSuchElementException("No such element in paypal database");
     }
     paypalRepository.delete(paymentMethodId);
@@ -38,7 +38,7 @@ public class PaypalService implements PaymentService<PaypalDto> {
 
   @Override
   public PaypalDto update(Long paymentMethodId, Long userId, PaypalDto paypalDto) {
-    if (!validationUtil.isElementInDatabase(paymentMethodId, PaypalRepository.getDb())) {
+    if (!paypalRepository.isContains(paymentMethodId)) {
       throw new NoSuchElementException("No such element in paypal database");
     }
     if (!validationUtil.validatePaypal(paypalDto)) {
@@ -52,7 +52,6 @@ public class PaypalService implements PaymentService<PaypalDto> {
   public List<PaypalDto> get(Long userId) {
     return paypalRepository
         .get(userId)
-        .orElseThrow(() -> new NoSuchElementException("No such user in paypal database"))
         .stream()
         .map(paypalDtoMapper)
         .toList();

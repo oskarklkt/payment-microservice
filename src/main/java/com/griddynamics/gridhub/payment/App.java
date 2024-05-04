@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class App {
   @Generated
-  // added @Generated annotation to not count this method in test coverage
   public static void main(String[] args) {
     CreditCardRepository creditCardRepository = new CreditCardRepository();
     CreditCardMapper creditCardMapper = new CreditCardMapper();

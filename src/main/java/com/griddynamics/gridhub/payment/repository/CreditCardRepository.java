@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CreditCardRepository implements Repository<CreditCard> {
@@ -30,9 +29,15 @@ public class CreditCardRepository implements Repository<CreditCard> {
   }
 
   @Override
-  public Optional<List<CreditCard>> get(Long userId) {
-    return Optional.of(
-        db.values().stream().filter(creditCard -> creditCard.getUserId().equals(userId)).toList());
+  public List<CreditCard> get(Long userId) {
+    return db.values().stream().
+            filter(creditCard -> creditCard.getUserId().equals(userId))
+            .toList();
+  }
+
+  @Override
+  public boolean isContains(Long paymentMethodId) {
+      return db.containsKey(paymentMethodId);
   }
 
   public static Long getNextId() {

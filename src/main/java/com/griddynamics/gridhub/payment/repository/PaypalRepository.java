@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PaypalRepository implements Repository<Paypal> {
@@ -31,9 +30,15 @@ public class PaypalRepository implements Repository<Paypal> {
   }
 
   @Override
-  public Optional<List<Paypal>> get(Long userId) {
-    return Optional.of(
-        db.values().stream().filter(paypal -> paypal.getUserId().equals(userId)).toList());
+  public List<Paypal> get(Long userId) {
+    return db.values().stream()
+            .filter(paypal -> paypal.getUserId().equals(userId))
+            .toList();
+  }
+
+  @Override
+  public boolean isContains(Long paymentMethodId) {
+    return db.containsKey(paymentMethodId);
   }
 
   public static Long getNextId() {

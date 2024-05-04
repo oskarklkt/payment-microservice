@@ -9,8 +9,8 @@ import com.griddynamics.gridhub.payment.model.CreditCard;
 import com.griddynamics.gridhub.payment.repository.CreditCardRepository;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
 import lombok.AllArgsConstructor;
-
 import java.util.List;
+
 
 @AllArgsConstructor
 public class CreditCardService implements PaymentService<CreditCardDto> {
@@ -32,7 +32,7 @@ public class CreditCardService implements PaymentService<CreditCardDto> {
 
   @Override
   public void delete(Long cardId) {
-    if (!validationUtil.isElementInDatabase(cardId, CreditCardRepository.getDb())) {
+    if (!creditCardRepository.isContains(cardId)) {
       throw new NoSuchElementException("No such element in database");
     }
     creditCardRepository.delete(cardId);
@@ -40,7 +40,7 @@ public class CreditCardService implements PaymentService<CreditCardDto> {
 
   @Override
   public CreditCardDto update(Long cardId, Long userId, CreditCardDto creditCardDto) {
-    if (!validationUtil.isElementInDatabase(cardId, CreditCardRepository.getDb())) {
+    if (!creditCardRepository.isContains(cardId)) {
       throw new NoSuchElementException("No such payment method in database");
     }
     if (!validationUtil.validateCreditCard(creditCardDto)) {
@@ -54,10 +54,9 @@ public class CreditCardService implements PaymentService<CreditCardDto> {
   @Override
   public List<CreditCardDto> get(Long userId) {
     return creditCardRepository
-        .get(userId)
-        .orElseThrow(() -> new NoSuchElementException("No such user in database"))
-        .stream()
-        .map(creditCardDtoMapper)
-        .toList();
+            .get(userId)
+            .stream()
+            .map(creditCardDtoMapper)
+            .toList();
   }
 }

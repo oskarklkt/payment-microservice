@@ -5,7 +5,6 @@ import com.griddynamics.gridhub.payment.model.CreditCard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Optional;
 
 import java.util.List;
 
@@ -106,9 +105,9 @@ class CreditCardRepositoryTest {
                 .cvv("123")
                 .build());
 
-        Optional<List<CreditCard>> result = repository.get(1L);
-        assertTrue(result.isPresent());
-        assertEquals(3, result.get().size());
+        List<CreditCard> result = repository.get(1L);
+        assertTrue(result != null && !result.isEmpty());
+        assertEquals(3, result.size());
     }
 
     @Test

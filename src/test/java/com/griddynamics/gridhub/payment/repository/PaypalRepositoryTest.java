@@ -5,10 +5,7 @@ import com.griddynamics.gridhub.payment.model.Paypal;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 class PaypalRepositoryTest {
 
@@ -111,7 +108,7 @@ class PaypalRepositoryTest {
                 .build();
         //when
         repository.save(paypal);
-    // then
-    assertEquals(Optional.of(List.of(paypal)), repository.get(1L));
+        // then
+        assertEquals(List.of(paypal), repository.get(1L));
       }
 }
