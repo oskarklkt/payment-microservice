@@ -19,7 +19,7 @@ public class PaymentController implements CrudRestController {
     }
 
     public void delete(PaymentType type, Long paymentMethodId) {
-        PaymentService<?> service = paymentServiceFactory.getService(type);
+        PaymentService<PaymentMethodDto> service = paymentServiceFactory.getService(type);
         service.delete(paymentMethodId);
     }
 
