@@ -6,7 +6,7 @@ import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import java.util.List;
 
 public interface CrudRestController {
-  List<? extends PaymentMethodDto> get(PaymentType paymentType, Long userId);
+  List<PaymentMethodDto> get(Long userId);
 
   PaymentMethodDto update(Long paymentId, Long userId, PaymentMethodDto dto);
 

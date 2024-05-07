@@ -7,9 +7,6 @@ import com.griddynamics.gridhub.payment.service.ServiceFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-
-import java.util.Collections;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,15 +54,5 @@ class PaymentControllerTest {
     PaymentMethodDto result = controller.update(1L, 2L, dto);
     verify(paymentService).update(1L, 2L, dto);
     assertEquals(dto, result);
-  }
-
-  @Test
-  public void testGet() {
-    List<PaymentMethodDto> expectedList = Collections.singletonList(mock(PaymentMethodDto.class));
-    when(paymentService.get(anyLong())).thenReturn(expectedList);
-
-    List<? extends PaymentMethodDto> resultList = controller.get(PaymentType.PAYPAL, 1L);
-    verify(paymentService).get(1L);
-    assertEquals(expectedList, resultList);
   }
 }

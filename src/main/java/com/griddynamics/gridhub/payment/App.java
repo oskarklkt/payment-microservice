@@ -2,6 +2,7 @@ package com.griddynamics.gridhub.payment;
 
 import com.griddynamics.gridhub.payment.controller.PaymentController;
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
+import com.griddynamics.gridhub.payment.dto.PaypalDto;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.mapper.CreditCardDtoMapper;
 import com.griddynamics.gridhub.payment.mapper.CreditCardMapper;
@@ -24,7 +25,7 @@ public class App {
     CreditCardMapper creditCardMapper = new CreditCardMapper();
     CreditCardDtoMapper creditCardDtoMapper = new CreditCardDtoMapper();
 
-    PaymentController creditCardController =
+    PaymentController paymentController =
         new PaymentController(
             new ServiceFactory(
                 new PaypalService(
@@ -37,7 +38,7 @@ public class App {
                     creditCardDtoMapper,
                     new ValidationUtil(),
                     creditCardMapper)));
-    creditCardController.save(
+    paymentController.save(
         1L,
         CreditCardDto.builder()
             .paymentType(PaymentType.CREDIT_CARD)
@@ -46,7 +47,7 @@ public class App {
             .expirationDate("12/23")
             .cvv("123")
             .build());
-    creditCardController.save(
+    paymentController.save(
         2L,
         CreditCardDto.builder()
             .paymentType(PaymentType.CREDIT_CARD)
@@ -55,7 +56,7 @@ public class App {
             .expirationDate("11/23")
             .cvv("123")
             .build());
-    creditCardController.save(
+    paymentController.save(
         3L,
         CreditCardDto.builder()
             .paymentType(PaymentType.CREDIT_CARD)
@@ -64,7 +65,7 @@ public class App {
             .expirationDate("07/23")
             .cvv("123")
             .build());
-    creditCardController.save(
+    paymentController.save(
         1L,
         CreditCardDto.builder()
             .paymentType(PaymentType.CREDIT_CARD)
@@ -73,12 +74,12 @@ public class App {
             .expirationDate("07/23")
             .cvv("123")
             .build());
-    log.info("{}", creditCardController.get(PaymentType.CREDIT_CARD,1L));
-    log.info("{}", creditCardController.get(PaymentType.CREDIT_CARD,2L));
-    log.info("{}", creditCardController.get(PaymentType.CREDIT_CARD,3L));
-    creditCardController.delete(PaymentType.CREDIT_CARD,2L);
-    creditCardController.delete(PaymentType.CREDIT_CARD,3L);
-    creditCardController.update(
+    log.info("{}", paymentController.get(1L));
+    log.info("{}", paymentController.get(2L));
+    log.info("{}", paymentController.get(3L));
+    paymentController.delete(PaymentType.CREDIT_CARD,2L);
+    paymentController.delete(PaymentType.CREDIT_CARD,3L);
+    paymentController.update(
         1L,
         1L,
         CreditCardDto.builder()
@@ -88,6 +89,11 @@ public class App {
             .expirationDate("12/23")
             .cvv("123")
             .build());
-    log.info("{}", creditCardController.get(PaymentType.CREDIT_CARD,1L));
+    log.info("{}", paymentController.get(1L));
+    paymentController.save(1L , PaypalDto.builder()
+            .paymentType(PaymentType.PAYPAL)
+            .email("oskar@gmail.com")
+            .build());
+    log.info("{}", paymentController.get(1L));
   }
 }

@@ -7,6 +7,7 @@ import com.griddynamics.gridhub.payment.service.PaymentService;
 import com.griddynamics.gridhub.payment.service.ServiceFactory;
 import lombok.AllArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,8 +29,11 @@ public class PaymentController implements CrudRestController {
         return service.update(paymentMethodId, userId, dto);
     }
 
-    public List<? extends PaymentMethodDto> get(PaymentType type, Long userId) {
-        PaymentService<PaymentMethodDto> service = paymentServiceFactory.getService(type);
-        return service.get(userId);
+    public List<PaymentMethodDto> get(Long userId) {
+        PaymentService<PaymentMethodDto> serviceCard = paymentServiceFactory.getService(PaymentType.CREDIT_CARD);
+        PaymentService<PaymentMethodDto> servicePaypal = paymentServiceFactory.getService(PaymentType.PAYPAL);
+        List<PaymentMethodDto> paymentMethodsDto = new ArrayList<>(serviceCard.get(userId));
+        paymentMethodsDto.addAll(servicePaypal.get(userId));
+        return paymentMethodsDto;
     }
 }
