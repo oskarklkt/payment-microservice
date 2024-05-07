@@ -21,7 +21,7 @@ public class PaypalService implements PaymentService<PaypalDto> {
 
   @Override
   public PaypalDto save(Long userId, PaypalDto paypalDto) {
-    if (!validationUtil.validatePaypal(paypalDto)) {
+    if (validationUtil.validatePaypal(paypalDto)) {
       throw new PaypalException("Invalid paypal data");
     }
     Paypal paypal = paypalMapper.apply(PaypalRepository.getNextId(), userId, paypalDto);
@@ -30,7 +30,7 @@ public class PaypalService implements PaymentService<PaypalDto> {
 
   @Override
   public void delete(Long paymentMethodId) {
-    if (!paypalRepository.isContains(paymentMethodId)) {
+    if (paypalRepository.isContains(paymentMethodId)) {
       throw new NoSuchElementException("No such element in paypal database");
     }
     paypalRepository.delete(paymentMethodId);
@@ -38,10 +38,10 @@ public class PaypalService implements PaymentService<PaypalDto> {
 
   @Override
   public PaypalDto update(Long paymentMethodId, Long userId, PaypalDto paypalDto) {
-    if (!paypalRepository.isContains(paymentMethodId)) {
+    if (paypalRepository.isContains(paymentMethodId)) {
       throw new NoSuchElementException("No such element in paypal database");
     }
-    if (!validationUtil.validatePaypal(paypalDto)) {
+    if (validationUtil.validatePaypal(paypalDto)) {
       throw new PaypalException("Invalid paypal data");
     }
     Paypal paypal = paypalMapper.apply(paymentMethodId, userId, paypalDto);

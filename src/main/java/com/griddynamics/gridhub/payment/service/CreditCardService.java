@@ -32,7 +32,7 @@ public class CreditCardService implements PaymentService<CreditCardDto> {
 
   @Override
   public void delete(Long cardId) {
-    if (!creditCardRepository.isContains(cardId)) {
+    if (creditCardRepository.isContains(cardId)) {
       throw new NoSuchElementException("No such element in database");
     }
     creditCardRepository.delete(cardId);
@@ -40,7 +40,7 @@ public class CreditCardService implements PaymentService<CreditCardDto> {
 
   @Override
   public CreditCardDto update(Long cardId, Long userId, CreditCardDto creditCardDto) {
-    if (!creditCardRepository.isContains(cardId)) {
+    if (creditCardRepository.isContains(cardId)) {
       throw new NoSuchElementException("No such payment method in database");
     }
     if (!validationUtil.validateCreditCard(creditCardDto)) {

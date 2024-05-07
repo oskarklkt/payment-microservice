@@ -38,7 +38,7 @@ public class PaypalRepository implements Repository<Paypal> {
 
   @Override
   public boolean isContains(Long paymentMethodId) {
-    return db.containsKey(paymentMethodId);
+    return !db.containsKey(paymentMethodId);
   }
 
   public static Long getNextId() {

@@ -39,6 +39,6 @@ public class ValidationUtil {
   }
 
   public boolean validatePaypal(PaypalDto paypalDto) {
-    return isValidEmail(paypalDto.getEmail());
+    return !isValidEmail(paypalDto.getEmail());
   }
 }

@@ -1,15 +1,16 @@
 package com.griddynamics.gridhub.payment.controller;
 
 import com.griddynamics.gridhub.payment.dto.PaymentMethodDto;
+import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 
 import java.util.List;
 
-public interface CrudRestController<T extends PaymentMethodDto> {
-  List<T> get(Long userId);
+public interface CrudRestController {
+  List<? extends PaymentMethodDto> get(PaymentType paymentType, Long userId);
 
-  T update(Long paymentId, Long userId, T t);
+  PaymentMethodDto update(Long paymentId, Long userId, PaymentMethodDto dto);
 
-  void delete(Long paymentMethodId);
+  void delete(PaymentType paymentType, Long paymentMethodId);
 
-  T save(Long userId, T t);
+  PaymentMethodDto save(Long userId, PaymentMethodDto dto);
 }

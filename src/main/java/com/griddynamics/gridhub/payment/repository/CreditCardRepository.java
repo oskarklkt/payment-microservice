@@ -37,7 +37,7 @@ public class CreditCardRepository implements Repository<CreditCard> {
 
   @Override
   public boolean isContains(Long paymentMethodId) {
-      return db.containsKey(paymentMethodId);
+      return !db.containsKey(paymentMethodId);
   }
 
   public static Long getNextId() {

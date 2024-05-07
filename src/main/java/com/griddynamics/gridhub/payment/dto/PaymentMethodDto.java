@@ -8,6 +8,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode
 @Getter
-public sealed class PaymentMethodDto permits CreditCardDto, PaypalDto {
+public abstract class PaymentMethodDto {
   private PaymentType paymentType;
 }
