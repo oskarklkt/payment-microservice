@@ -1,5 +1,6 @@
 package com.griddynamics.gridhub.payment.repository;
 
+import com.griddynamics.gridhub.payment.database.QueryHandler;
 import com.griddynamics.gridhub.payment.model.Paypal;
 import lombok.Getter;
 
@@ -11,6 +12,7 @@ public class PaypalRepository implements Repository<Paypal> {
 
   @Getter
   private static final Map<Long, Paypal> db = new ConcurrentHashMap<>();
+  QueryHandler<Paypal> queryHandler = new QueryHandler<>();
 
   @Override
   public Paypal save(Paypal paypal) {

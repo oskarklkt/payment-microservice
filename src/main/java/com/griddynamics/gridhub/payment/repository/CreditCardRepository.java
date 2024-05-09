@@ -1,5 +1,6 @@
 package com.griddynamics.gridhub.payment.repository;
 
+import com.griddynamics.gridhub.payment.database.QueryHandler;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CreditCardRepository implements Repository<CreditCard> {
 
   @Getter private static final Map<Long, CreditCard> db = new ConcurrentHashMap<>();
+  QueryHandler<CreditCard> queryHandler = new QueryHandler<>();
 
   @Override
   public CreditCard save(CreditCard creditCard) {
