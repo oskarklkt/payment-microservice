@@ -1,126 +1,97 @@
 package com.griddynamics.gridhub.payment.repository;
 
+import com.griddynamics.gridhub.payment.database.QueryHandler;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
+import com.griddynamics.gridhub.payment.mapper.resultSetToModel.ResultSetCreditCardMapper;
 import com.griddynamics.gridhub.payment.model.CreditCard;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-class CreditCardRepositoryTest {
+@ExtendWith(MockitoExtension.class)
+public class CreditCardRepositoryTest {
 
-    private CreditCardRepository repository;
+    @Mock
+    private QueryHandler<CreditCard> queryHandler;
+
+    @Mock
+    private ResultSetCreditCardMapper resultSetCreditCardMapper;
+    @Mock
+    private CreditCard creditCard;
+
+    private CreditCardRepository creditCardRepository;
 
     @BeforeEach
-    public void setup() {
-        repository = new CreditCardRepository();
-        CreditCardRepository.getDb().clear();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        CreditCardRepository.getDb().clear();
-    }
-
-    @Test
-    public void testSaveNewCard() {
-        CreditCard newCard = CreditCard.builder()
+    public void setUp() {
+        creditCardRepository = new CreditCardRepository(resultSetCreditCardMapper, queryHandler);
+        creditCard = CreditCard.builder()
                 .id(1L)
                 .userId(1L)
                 .paymentType(PaymentType.CREDIT_CARD)
-                .cardHolderName("Test")
+                .cardHolderName("John Doe")
                 .cardNumber("1234567890123456")
-                .expirationDate("12/24")
+                .expirationDate("12/2022")
                 .cvv("123")
                 .build();
-        CreditCard savedCard = repository.save(newCard);
-        assertEquals(newCard, savedCard);
-        assertEquals(1, CreditCardRepository.getDb().size());
     }
 
     @Test
-    public void testDeleteCard() {
-        CreditCard card = CreditCard.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.CREDIT_CARD)
-                .cardHolderName("Test")
-                .cardNumber("1234567890123456")
-                .expirationDate("12/24")
-                .cvv("123")
-                .build();
-        repository.save(card);
-        repository.delete(1L);
-        assertFalse(CreditCardRepository.getDb().containsKey(1L));
+    public void testSave() {
+        creditCardRepository.save(creditCard);
+
+        verify(queryHandler, times(1)).execute(anyString(), anyLong(), any(), anyString(), anyString(), anyString(), anyString());
     }
 
     @Test
-    public void testUpdateCard() {
-        CreditCard card = CreditCard.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.CREDIT_CARD)
-                .cardHolderName("Test")
-                .cardNumber("1234567890123456")
-                .expirationDate("12/24")
-                .cvv("123")
-                .build();
-        repository.save(card);
-        card.setExpirationDate("12/25");  // Change expiry date
-        CreditCard updatedCard = repository.update(card);
-        assertEquals("12/25", updatedCard.getExpirationDate());
-        assertEquals(card, updatedCard);
+    public void testUpdate() {
+        creditCardRepository.update(creditCard);
+
+        verify(queryHandler, times(1)).execute(anyString(), anyString(), anyString(), anyString(), anyString(), anyLong());
     }
 
     @Test
-    public void testGetCardsByUserId() {
-        repository.save(CreditCard.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.CREDIT_CARD)
-                .cardHolderName("Test")
-                .cardNumber("1234567890123456")
-                .expirationDate("12/24")
-                .cvv("123")
-                .build());
-        repository.save(CreditCard.builder()
-                .id(2L)
-                .userId(1L)
-                .paymentType(PaymentType.CREDIT_CARD)
-                .cardHolderName("Test")
-                .cardNumber("1234567890123456")
-                .expirationDate("12/24")
-                .cvv("123")
-                .build());
-        repository.save(CreditCard.builder()
-                .id(3L)
-                .userId(1L)
-                .paymentType(PaymentType.CREDIT_CARD)
-                .cardHolderName("Test")
-                .cardNumber("1234567890123456")
-                .expirationDate("12/24")
-                .cvv("123")
-                .build());
+    public void testDelete() {
+        creditCardRepository.delete(1L);
 
-        List<CreditCard> result = repository.get(1L);
-        assertTrue(result != null && !result.isEmpty());
-        assertEquals(3, result.size());
+        verify(queryHandler, times(1)).execute(anyString(), anyLong());
+    }
+
+    @Test
+    public void testGet() {
+        List<CreditCard> expected = Collections.singletonList(creditCard);
+        when(queryHandler.findMany(anyString(), any(), anyLong())).thenReturn(expected);
+
+        List<CreditCard> result = creditCardRepository.get(1L);
+
+        verify(queryHandler, times(1)).findMany(anyString(), any(), anyLong());
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void testIsContains() {
+        when(queryHandler.findOne(anyString(), any(), anyLong())).thenReturn(creditCard);
+
+        boolean result = creditCardRepository.isContains(1L);
+
+        verify(queryHandler, times(1)).findOne(anyString(), any(), anyLong());
+        assertTrue(result);
     }
 
     @Test
     public void testGetNextId() {
-        repository.save(CreditCard.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.CREDIT_CARD)
-                .cardHolderName("Test")
-                .cardNumber("1234567890123456")
-                .expirationDate("12/24")
-                .cvv("123")
-                .build());
-        assertEquals(Long.valueOf(2), CreditCardRepository.getNextId());
+        when(queryHandler.findMany(anyString(), any())).thenReturn(Collections.singletonList(creditCard));
+
+        Long result = creditCardRepository.getNextId();
+
+        verify(queryHandler, times(1)).findMany(anyString(), any());
+        assertEquals(2L, result);
     }
 }

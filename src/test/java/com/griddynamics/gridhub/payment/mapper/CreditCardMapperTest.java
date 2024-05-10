@@ -2,6 +2,7 @@ package com.griddynamics.gridhub.payment.mapper;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
+import com.griddynamics.gridhub.payment.mapper.dtoToModel.CreditCardMapper;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import org.junit.jupiter.api.Test;
 

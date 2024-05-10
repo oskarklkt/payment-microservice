@@ -1,108 +1,116 @@
 package com.griddynamics.gridhub.payment.service;
 
 import com.griddynamics.gridhub.payment.dto.PaypalDto;
-import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.exception.NoSuchElementException;
 import com.griddynamics.gridhub.payment.exception.PaypalException;
-import com.griddynamics.gridhub.payment.mapper.PaypalDtoMapper;
-import com.griddynamics.gridhub.payment.mapper.PaypalMapper;
+import com.griddynamics.gridhub.payment.mapper.dtoToModel.PaypalMapper;
+import com.griddynamics.gridhub.payment.mapper.modelToDto.PaypalDtoMapper;
+import com.griddynamics.gridhub.payment.model.Paypal;
 import com.griddynamics.gridhub.payment.repository.PaypalRepository;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.Collections;
+import java.util.List;
 
-class PaypalServiceTest {
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-    ValidationUtil validationUtil;
-    PaypalService service;
-    PaypalRepository repository;
-    PaypalDtoMapper paypalDtoMapper;
-    PaypalMapper paypalMapper;
-    PaypalDto paypalDto;
+@ExtendWith(MockitoExtension.class)
+public class PaypalServiceTest {
+
+    @Mock
+    private PaypalRepository paypalRepository;
+    @Mock
+    private PaypalDtoMapper paypalDtoMapper;
+    @Mock
+    private ValidationUtil validationUtil;
+    @Mock
+    private PaypalMapper paypalMapper;
+    @Mock
+    private PaypalDto paypalDto;
+    @Mock
+    private Paypal paypal;
+
+    private PaypalService paypalService;
 
     @BeforeEach
-    void setUp() {
-        repository = new PaypalRepository();
-        paypalDtoMapper = new PaypalDtoMapper();
-        paypalMapper = new PaypalMapper();
-        validationUtil = new ValidationUtil();
-        service = new PaypalService(repository, paypalDtoMapper, validationUtil, paypalMapper);
-        paypalDto = PaypalDto.builder()
-                .paymentType(PaymentType.PAYPAL)
-                .email("oskar@gmail.com")
-                .build();
-    }
-
-    @AfterEach
-    void tearDown() {
-        PaypalRepository.getDb().clear();
+    public void setUp() {
+        paypalService = new PaypalService(paypalRepository, paypalDtoMapper, validationUtil, paypalMapper);
+        lenient().when(paypalMapper.apply(anyLong(), anyLong(), any())).thenReturn(paypal);
+        lenient().when(paypalDtoMapper.apply(any())).thenReturn(paypalDto);
     }
 
     @Test
-    void save() {
-        //when
-        service.save(1L, paypalDto);
-        //then
-        assertEquals(1, PaypalRepository.getDb().size());
-        assertEquals(1L, PaypalRepository.getDb().get(1L).getUserId());
+    public void testSave() {
+        when(validationUtil.validatePaypal(any())).thenReturn(true);
+        PaypalDto result = paypalService.save(1L, paypalDto);
+
+        verify(paypalRepository, times(1)).save(paypal);
+        assertEquals(paypalDto, result);
     }
 
     @Test
-    void saveThrows() {
-        //given
-        paypalDto.setEmail("");
-        //then
-        assertThrows(PaypalException.class, () -> service.save(1L, paypalDto));
+    public void testSaveInvalidPaypal() {
+        when(validationUtil.validatePaypal(paypalDto)).thenReturn(false);
+
+        assertThrows(PaypalException.class, () -> paypalService.save(1L, paypalDto));
     }
 
     @Test
-    void delete() {
-        //given
-        service.save(1L, paypalDto);
-        //when
-        service.delete(1L);
-        //then
-        assertEquals(0, PaypalRepository.getDb().size());
+    public void testDelete() {
+        when(paypalRepository.isContains(1L)).thenReturn(false);
+
+        paypalService.delete(1L);
+
+        verify(paypalRepository, times(1)).delete(1L);
     }
 
     @Test
-    void deleteThrows() {
-        //then
-        assertThrows(NoSuchElementException.class, () -> service.delete(1L));
-    }
+    public void testDeleteNoSuchElement() {
+        when(paypalRepository.isContains(1L)).thenReturn(true);
 
-
-
-    @Test
-    void update() {
-        //given
-        service.save(1L, paypalDto);
-        PaypalDto updatedPaypalDto = PaypalDto.builder()
-                .paymentType(PaymentType.PAYPAL)
-                .email("new@gmail.com")
-                .build();
-        //when
-        service.update(1L, 1L, updatedPaypalDto);
-        // then
-        assertEquals(updatedPaypalDto, paypalDtoMapper.apply(PaypalRepository.getDb().get(1L)));
+        assertThrows(NoSuchElementException.class, () -> paypalService.delete(1L));
     }
 
     @Test
-    void updateThrows() {
-        assertThrows(NoSuchElementException.class, () -> service.update(1L, 1L, paypalDto));
+    public void testUpdate() {
+        when(validationUtil.validatePaypal(paypalDto)).thenReturn(true);
+        when(paypalRepository.isContains(1L)).thenReturn(false);
+
+        PaypalDto result = paypalService.update(1L, 1L, paypalDto);
+
+        verify(paypalRepository, times(1)).update(paypal);
+        assertEquals(paypalDto, result);
     }
 
     @Test
-    void get() {
-        //given
-        service.save(1L, paypalDto);
-        //when
-        var paypalDto1 = service.get(1L);
-        //then
-        assertEquals(paypalDto, paypalDto1.get(0));
+    public void testUpdateInvalidPaypal() {
+        when(validationUtil.validatePaypal(paypalDto)).thenReturn(false);
+
+        assertThrows(PaypalException.class, () -> paypalService.update(1L, 1L, paypalDto));
+    }
+
+    @Test
+    public void testUpdateNoSuchElement() {
+        when(paypalRepository.isContains(1L)).thenReturn(true);
+
+        assertThrows(NoSuchElementException.class, () -> paypalService.update(1L, 1L, paypalDto));
+    }
+
+    @Test
+    public void testGet() {
+        List<Paypal> paypals = Collections.singletonList(paypal);
+        when(paypalRepository.get(1L)).thenReturn(paypals);
+
+        List<PaypalDto> result = paypalService.get(1L);
+
+        verify(paypalRepository, times(1)).get(1L);
+        assertEquals(1, result.size());
+        assertEquals(paypalDto, result.get(0));
     }
 }

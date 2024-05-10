@@ -1,49 +1,56 @@
 package com.griddynamics.gridhub.payment.repository;
 
 import com.griddynamics.gridhub.payment.database.QueryHandler;
+import com.griddynamics.gridhub.payment.mapper.resultSetToModel.ResultSetPaypalMapper;
 import com.griddynamics.gridhub.payment.model.Paypal;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
+@AllArgsConstructor
 public class PaypalRepository implements Repository<Paypal> {
 
-  @Getter
-  private static final Map<Long, Paypal> db = new ConcurrentHashMap<>();
-  QueryHandler<Paypal> queryHandler = new QueryHandler<>();
+
+  QueryHandler<Paypal> queryHandler;
+  ResultSetPaypalMapper resultSetPaypalMapper;
+
+  private static final String SAVE_PAYPAL_QUERY = "INSERT INTO paypal_accounts (id, user_id, payment_type, email) VALUES (?, ?, ?, ?)";
+  private static final String DELETE_PAYPAL_QUERY = "DELETE FROM paypal_accounts WHERE id = ?";
+  private static final String UPDATE_PAYPAL_QUERY = "UPDATE paypal_accounts SET email = ? WHERE id = ?";
+  private static final String GET_PAYPAL_BY_ID_QUERY = "SELECT * FROM paypal_accounts WHERE id = ?";
+  private static final String GET_PAYPAL_BY_USER_ID_QUERY = "SELECT * FROM paypal_accounts WHERE user_id = ?";
+  private static final String GET_NEXT_ID_QUERY = "SELECT MAX(id) FROM paypal_accounts";
+
 
   @Override
   public Paypal save(Paypal paypal) {
-    db.putIfAbsent(paypal.getId(), paypal);
+    queryHandler.execute(SAVE_PAYPAL_QUERY, paypal.getId(), paypal.getUserId(), paypal.getPaymentType().name(), paypal.getEmail());
     return paypal;
   }
 
   @Override
   public void delete(Long paypalId) {
-    db.remove(paypalId);
+    queryHandler.execute(DELETE_PAYPAL_QUERY, paypalId);
   }
 
   @Override
   public Paypal update(Paypal paypal) {
-    db.put(paypal.getId(), paypal);
+    queryHandler.execute(UPDATE_PAYPAL_QUERY, paypal.getEmail(), paypal.getId());
     return paypal;
   }
 
   @Override
   public List<Paypal> get(Long userId) {
-    return db.values().stream()
-            .filter(paypal -> paypal.getUserId().equals(userId))
-            .toList();
+    return queryHandler.findMany(GET_PAYPAL_BY_USER_ID_QUERY, resultSetPaypalMapper, userId);
   }
 
   @Override
   public boolean isContains(Long paymentMethodId) {
-    return !db.containsKey(paymentMethodId);
+    return queryHandler.findOne(GET_PAYPAL_BY_ID_QUERY, resultSetPaypalMapper, paymentMethodId) != null;
   }
 
-  public static Long getNextId() {
-    return db.keySet().stream().max(Long::compareTo).orElse(0L) + 1;
+  public Long getNextId() {
+    return queryHandler.findMany(GET_NEXT_ID_QUERY, resultSetPaypalMapper).size() + 1L;
   }
 }

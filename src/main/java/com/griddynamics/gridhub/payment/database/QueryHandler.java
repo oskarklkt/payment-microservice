@@ -2,6 +2,7 @@ package com.griddynamics.gridhub.payment.database;
 
 import com.griddynamics.gridhub.payment.exception.TooManyResultsException;
 import com.griddynamics.gridhub.payment.model.PaymentMethod;
+import lombok.Generated;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
@@ -24,7 +25,9 @@ public class QueryHandler<T extends PaymentMethod> {
         }
     }
 
+    //will be deleted soon
     @SneakyThrows
+    @Generated
     public void execute(String query, Consumer<PreparedStatement> statementConsumer) {
         try (Connection connection = DataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {

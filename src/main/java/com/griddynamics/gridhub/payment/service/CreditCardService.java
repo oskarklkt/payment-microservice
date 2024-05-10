@@ -3,8 +3,8 @@ package com.griddynamics.gridhub.payment.service;
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
 import com.griddynamics.gridhub.payment.exception.CreditCardException;
 import com.griddynamics.gridhub.payment.exception.NoSuchElementException;
-import com.griddynamics.gridhub.payment.mapper.CreditCardDtoMapper;
-import com.griddynamics.gridhub.payment.mapper.CreditCardMapper;
+import com.griddynamics.gridhub.payment.mapper.modelToDto.CreditCardDtoMapper;
+import com.griddynamics.gridhub.payment.mapper.dtoToModel.CreditCardMapper;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import com.griddynamics.gridhub.payment.repository.CreditCardRepository;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
@@ -25,7 +25,7 @@ public class CreditCardService implements PaymentService<CreditCardDto> {
       throw new CreditCardException("Invalid credit card data");
     }
     CreditCard creditCard =
-        creditCardMapper.apply(CreditCardRepository.getNextId(), userId, creditCardDto);
+        creditCardMapper.apply(creditCardRepository.getNextId(), userId, creditCardDto);
     creditCardRepository.save(creditCard);
     return creditCardDto;
   }

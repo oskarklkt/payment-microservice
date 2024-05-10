@@ -1,4 +1,4 @@
-package com.griddynamics.gridhub.payment.mapper;
+package com.griddynamics.gridhub.payment.mapper.modelToDto;
 
 import com.griddynamics.gridhub.payment.dto.PaypalDto;
 import com.griddynamics.gridhub.payment.model.Paypal;

@@ -1,114 +1,99 @@
 package com.griddynamics.gridhub.payment.repository;
 
+import com.griddynamics.gridhub.payment.database.QueryHandler;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
+import com.griddynamics.gridhub.payment.mapper.resultSetToModel.ResultSetPaypalMapper;
 import com.griddynamics.gridhub.payment.model.Paypal;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+
+import java.util.Collections;
 import java.util.List;
+
+
 import static org.junit.jupiter.api.Assertions.*;
-class PaypalRepositoryTest {
+import static org.mockito.Mockito.*;
 
-    PaypalRepository repository;
+@ExtendWith(MockitoExtension.class)
+public class PaypalRepositoryTest {
+
+    @Mock
+    private QueryHandler<Paypal> queryHandler;
+
+    @Mock
+    private ResultSetPaypalMapper resultSetPaypalMapper;
+    @Mock
+    private Paypal paypal;
+
+
+    private PaypalRepository paypalRepository;
+
     @BeforeEach
-    public void setup() {
-        repository = new PaypalRepository();
-        PaypalRepository.getDb().clear();
-    }
-
-    @AfterEach
-    public void tearDown() {
-        PaypalRepository.getDb().clear();
-    }
-
-    @Test
-    void saveWhenAbsent() {
-        //given
-        Paypal paypal = Paypal.builder()
+    public void setUp() {
+        paypalRepository = new PaypalRepository(queryHandler, resultSetPaypalMapper);
+        paypal = Paypal.builder()
                 .id(1L)
                 .userId(1L)
                 .paymentType(PaymentType.PAYPAL)
-                .email("oskar@gmail.com")
+                .email("o@gmail.com")
                 .build();
-        //when
-        Paypal savedPaypal = repository.save(paypal);
-        //then
-        assertEquals(savedPaypal, paypal);
-        assertEquals(1, PaypalRepository.getDb().size());
     }
 
     @Test
-    void shouldNotSaveWhenNotAbsent() {
-        //given
-        Paypal paypal = Paypal.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.PAYPAL)
-                .email("oskar@gmail.com")
-                .build();
-        Paypal paypal2 = Paypal.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.PAYPAL)
-                .email("oskar@gmail.com")
-                .build();
-        //when
-        repository.save(paypal);
-        repository.save(paypal2);
-        //then
-        assertEquals(1, PaypalRepository.getDb().size());
+    public void testSave() {
+        paypalRepository.save(paypal);
+
+        verify(queryHandler, times(1)).execute(anyString(), anyLong(), anyLong(), anyString(), anyString());
     }
 
     @Test
-    void delete() {
-        //given
-        Paypal paypal = Paypal.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.PAYPAL)
-                .email("oskar@gmail.com")
-                .build();
-        //when
-        repository.save(paypal);
-        repository.delete(1L);
-        //then
-        assertFalse(PaypalRepository.getDb().containsKey(1L));
+    public void testUpdate() {
+        paypalRepository.update(paypal);
+
+        verify(queryHandler, times(1)).execute(anyString(), anyString(), anyLong());
     }
 
     @Test
-    void update() {
-        //given
-        Paypal paypal = Paypal.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.PAYPAL)
-                .email("oskar@gmail.com")
-                .build();
-        Paypal paypal2 = Paypal.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.PAYPAL)
-                .email("oskarklkt@gmail.com")
-                .build();
-        //when
-        repository.save(paypal);
-        repository.update(paypal2);
-        //then
-        assertEquals(paypal2, PaypalRepository.getDb().get(1L));
+    public void testDelete() {
+        paypalRepository.delete(1L);
+
+        verify(queryHandler, times(1)).execute(anyString(), anyLong());
+    }
+
+
+
+    @Test
+    public void testGet() {
+        List<Paypal> expected = Collections.singletonList(paypal);
+        when(queryHandler.findMany(anyString(), any(), anyLong())).thenReturn(expected);
+
+        List<Paypal> result = paypalRepository.get(1L);
+
+        verify(queryHandler, times(1)).findMany(anyString(), any(), anyLong());
+        assertEquals(expected, result);
     }
 
     @Test
-    void get() {
-        //given
-        Paypal paypal = Paypal.builder()
-                .id(1L)
-                .userId(1L)
-                .paymentType(PaymentType.PAYPAL)
-                .email("oskar@gmail.com")
-                .build();
-        //when
-        repository.save(paypal);
-        // then
-        assertEquals(List.of(paypal), repository.get(1L));
-      }
+    public void testIsContains() {
+        when(queryHandler.findOne(anyString(), any(), anyLong())).thenReturn(paypal);
+
+        boolean result = paypalRepository.isContains(1L);
+
+        verify(queryHandler, times(1)).findOne(anyString(), any(), anyLong());
+        assertTrue(result);
+    }
+
+    @Test
+    public void testGetNextId() {
+        when(queryHandler.findMany(anyString(), any())).thenReturn(Collections.singletonList(paypal));
+
+        Long result = paypalRepository.getNextId();
+
+        verify(queryHandler, times(1)).findMany(anyString(), any());
+        assertEquals(2L, result);
+    }
 }
