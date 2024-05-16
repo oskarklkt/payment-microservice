@@ -3,7 +3,10 @@ package com.griddynamics.gridhub.payment.mapper.dtoToModel;
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import org.apache.commons.lang3.function.TriFunction;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class CreditCardMapper implements TriFunction<Long, Long, CreditCardDto, CreditCard> {
 
   @Override

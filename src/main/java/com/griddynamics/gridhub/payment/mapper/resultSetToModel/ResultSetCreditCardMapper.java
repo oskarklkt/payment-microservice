@@ -3,10 +3,12 @@ package com.griddynamics.gridhub.payment.mapper.resultSetToModel;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.util.function.Function;
 
+@Component
 public class ResultSetCreditCardMapper implements Function<ResultSet, CreditCard> {
     @SneakyThrows
     @Override

@@ -4,6 +4,7 @@ import com.griddynamics.gridhub.payment.exception.TooManyResultsException;
 import com.griddynamics.gridhub.payment.model.PaymentMethod;
 import lombok.Generated;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@Component
 public class QueryHandler<T extends PaymentMethod> {
     @SneakyThrows
     public void execute(String query, Object... args) {

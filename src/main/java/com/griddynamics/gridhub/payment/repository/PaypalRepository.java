@@ -4,10 +4,12 @@ import com.griddynamics.gridhub.payment.database.QueryHandler;
 import com.griddynamics.gridhub.payment.mapper.resultSetToModel.ResultSetPaypalMapper;
 import com.griddynamics.gridhub.payment.model.Paypal;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 
 import java.util.List;
-
+//@Component will be changed to @Repository when we will be adding spring data
+@Component
 @AllArgsConstructor
 public class PaypalRepository implements Repository<Paypal> {
 

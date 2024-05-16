@@ -6,10 +6,12 @@ import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.service.PaymentService;
 import com.griddynamics.gridhub.payment.service.ServiceFactory;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Controller
 @AllArgsConstructor
 public class PaymentController implements CrudRestController {
     private ServiceFactory paymentServiceFactory;

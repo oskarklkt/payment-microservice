@@ -3,7 +3,9 @@ package com.griddynamics.gridhub.payment.util;
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
 import com.griddynamics.gridhub.payment.dto.PaypalDto;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ValidationUtil {
 
   private final static String CARD_NUMBER_REGEX = "^[0-9]{16}$";

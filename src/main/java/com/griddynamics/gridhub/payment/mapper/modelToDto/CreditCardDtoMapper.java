@@ -2,9 +2,11 @@ package com.griddynamics.gridhub.payment.mapper.modelToDto;
 
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
 import com.griddynamics.gridhub.payment.model.CreditCard;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
+@Component
 public class CreditCardDtoMapper implements Function<CreditCard, CreditCardDto> {
 
   @Override

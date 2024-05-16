@@ -9,9 +9,11 @@ import com.griddynamics.gridhub.payment.model.Paypal;
 import com.griddynamics.gridhub.payment.repository.PaypalRepository;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @AllArgsConstructor
 public class PaypalService implements PaymentService<PaypalDto> {
   private final PaypalRepository paypalRepository;

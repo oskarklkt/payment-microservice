@@ -9,9 +9,11 @@ import com.griddynamics.gridhub.payment.model.CreditCard;
 import com.griddynamics.gridhub.payment.repository.CreditCardRepository;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-
+@Service
 @AllArgsConstructor
 public class CreditCardService implements PaymentService<CreditCardDto> {
   private final CreditCardRepository creditCardRepository;
