@@ -7,6 +7,7 @@ import com.griddynamics.gridhub.payment.mapper.dtoToModel.PaypalMapper;
 import com.griddynamics.gridhub.payment.mapper.modelToDto.PaypalDtoMapper;
 import com.griddynamics.gridhub.payment.model.Paypal;
 import com.griddynamics.gridhub.payment.repository.PaypalRepository;
+import com.griddynamics.gridhub.payment.service.implementation.PaypalServiceImpl;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,11 +37,11 @@ public class PaypalServiceTest {
     @Mock
     private Paypal paypal;
 
-    private PaypalService paypalService;
+    private PaypalServiceImpl paypalService;
 
     @BeforeEach
     public void setUp() {
-        paypalService = new PaypalService(paypalRepository, paypalDtoMapper, validationUtil, paypalMapper);
+        paypalService = new PaypalServiceImpl(paypalRepository, paypalDtoMapper, validationUtil, paypalMapper);
         lenient().when(paypalMapper.apply(anyLong(), anyLong(), any())).thenReturn(paypal);
         lenient().when(paypalDtoMapper.apply(any())).thenReturn(paypalDto);
     }

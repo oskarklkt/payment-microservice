@@ -3,6 +3,9 @@ package com.griddynamics.gridhub.payment.service;
 import com.griddynamics.gridhub.payment.dto.CreditCardDto;
 import com.griddynamics.gridhub.payment.dto.PaypalDto;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
+import com.griddynamics.gridhub.payment.service.implementation.CreditCardServiceImpl;
+import com.griddynamics.gridhub.payment.service.implementation.PaypalServiceImpl;
+import com.griddynamics.gridhub.payment.service.implementation.ServiceFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,26 +18,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class ServiceFactoryTest {
 
     @Mock
-    private PaypalService paypalService;
+    private PaypalServiceImpl paypalService;
     @Mock
-    private CreditCardService creditCardService;
+    private CreditCardServiceImpl creditCardService;
 
-    private ServiceFactory serviceFactory;
+    private ServiceFactoryImpl serviceFactory;
 
     @BeforeEach
     public void setUp() {
-        serviceFactory = new ServiceFactory(paypalService, creditCardService);
+        serviceFactory = new ServiceFactoryImpl(paypalService, creditCardService);
     }
 
     @Test
     public void testGetPaypalService() {
         PaymentService<PaypalDto> service = serviceFactory.getService(PaymentType.PAYPAL);
-        assertInstanceOf(PaypalService.class, service, "Service should be an instance of PaypalService");
+        assertInstanceOf(PaypalServiceImpl.class, service, "Service should be an instance of PaypalService");
     }
 
     @Test
     public void testGetCreditCardService() {
         PaymentService<CreditCardDto> service = serviceFactory.getService(PaymentType.CREDIT_CARD);
-        assertInstanceOf(CreditCardService.class, service, "Service should be an instance of CreditCardService");
+        assertInstanceOf(CreditCardServiceImpl.class, service, "Service should be an instance of CreditCardService");
     }
 }

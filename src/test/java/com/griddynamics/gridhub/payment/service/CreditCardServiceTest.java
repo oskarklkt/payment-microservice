@@ -7,6 +7,7 @@ import com.griddynamics.gridhub.payment.mapper.dtoToModel.CreditCardMapper;
 import com.griddynamics.gridhub.payment.mapper.modelToDto.CreditCardDtoMapper;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import com.griddynamics.gridhub.payment.repository.CreditCardRepository;
+import com.griddynamics.gridhub.payment.service.implementation.CreditCardServiceImpl;
 import com.griddynamics.gridhub.payment.util.ValidationUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,11 +37,11 @@ public class CreditCardServiceTest {
     @Mock
     private CreditCard creditCard;
 
-    private CreditCardService creditCardService;
+    private CreditCardServiceImpl creditCardService;
 
     @BeforeEach
     public void setUp() {
-        creditCardService = new CreditCardService(creditCardRepository, creditCardDtoMapper, validationUtil, creditCardMapper);
+        creditCardService = new CreditCardServiceImpl(creditCardRepository, creditCardDtoMapper, validationUtil, creditCardMapper);
         lenient().when(creditCardMapper.apply(anyLong(), anyLong(), any())).thenReturn(creditCard);
         lenient().when(creditCardDtoMapper.apply(any())).thenReturn(creditCardDto);
     }

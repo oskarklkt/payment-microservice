@@ -3,7 +3,7 @@ package com.griddynamics.gridhub.payment.controller;
 import com.griddynamics.gridhub.payment.dto.PaymentMethodDto;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.service.PaymentService;
-import com.griddynamics.gridhub.payment.service.ServiceFactory;
+import com.griddynamics.gridhub.payment.service.implementation.ServiceFactoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 class PaymentControllerTest {
 
-  @Mock private ServiceFactory serviceFactory;
+  @Mock private ServiceFactoryImpl serviceFactory;
   @Mock private PaymentService<PaymentMethodDto> paymentService;
 
   private PaymentController controller;
