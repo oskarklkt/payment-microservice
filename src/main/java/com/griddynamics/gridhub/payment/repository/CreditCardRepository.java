@@ -1,6 +1,6 @@
 package com.griddynamics.gridhub.payment.repository;
 
-import com.griddynamics.gridhub.payment.database.QueryHandler;
+import com.griddynamics.gridhub.payment.datasource.QueryHandler;
 import com.griddynamics.gridhub.payment.mapper.resultSetToModel.ResultSetCreditCardMapper;
 import com.griddynamics.gridhub.payment.model.CreditCard;
 import lombok.AllArgsConstructor;

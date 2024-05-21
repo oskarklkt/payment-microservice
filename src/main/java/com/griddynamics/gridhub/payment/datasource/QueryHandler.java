@@ -1,7 +1,8 @@
-package com.griddynamics.gridhub.payment.database;
+package com.griddynamics.gridhub.payment.datasource;
 
 import com.griddynamics.gridhub.payment.exception.TooManyResultsException;
 import com.griddynamics.gridhub.payment.model.PaymentMethod;
+import lombok.AllArgsConstructor;
 import lombok.Generated;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -15,10 +16,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Component
+@AllArgsConstructor
 public class QueryHandler<T extends PaymentMethod> {
+
+    private final Database database;
+
     @SneakyThrows
     public void execute(String query, Object... args) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = database.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
                 preparedStatement.setObject(i + 1, args[i]);
@@ -31,7 +36,7 @@ public class QueryHandler<T extends PaymentMethod> {
     @SneakyThrows
     @Generated
     public void execute(String query, Consumer<PreparedStatement> statementConsumer) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = database.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             statementConsumer.accept(preparedStatement);
             preparedStatement.execute();
@@ -40,7 +45,7 @@ public class QueryHandler<T extends PaymentMethod> {
 
     @SneakyThrows
     public T findOne(String query, Function<ResultSet, T> mapper, Object... args) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = database.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
                 preparedStatement.setObject(i + 1, args[i]);
@@ -56,7 +61,7 @@ public class QueryHandler<T extends PaymentMethod> {
 
     @SneakyThrows
     public List<T> findMany(String query, Function<ResultSet, T> mapper, Object... args) {
-        try (Connection connection = DataSource.getConnection();
+        try (Connection connection = database.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             for (int i = 0; i < args.length; i++) {
                 preparedStatement.setObject(i + 1, args[i]);

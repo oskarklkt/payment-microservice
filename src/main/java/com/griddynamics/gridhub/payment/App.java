@@ -1,6 +1,6 @@
 package com.griddynamics.gridhub.payment;
 
-import com.griddynamics.gridhub.payment.database.DataSource;
+import com.griddynamics.gridhub.payment.controller.PaymentController;
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ public class App {
   public static void main(String[] args) {
     Dotenv dotenv = Dotenv.load();
     ConfigurableApplicationContext context = SpringApplication.run(App.class, args);
-    DataSource.initialize(dotenv.get("DB_URL"), dotenv.get("DB_USER"), dotenv.get("DB_PASSWORD"));
-
+    PaymentController paymentController = context.getBean(PaymentController.class);
+    System.out.println(paymentController.get(2L));
   }
 }

@@ -1,0 +1,7 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+db:
+  username: ${DB_USER}
+  password: ${DB_PASSWORD}
+  url: ${DB_LOCAL_URL}

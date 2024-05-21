@@ -1,6 +1,6 @@
 package com.griddynamics.gridhub.payment.repository;
 
-import com.griddynamics.gridhub.payment.database.QueryHandler;
+import com.griddynamics.gridhub.payment.datasource.QueryHandler;
 import com.griddynamics.gridhub.payment.enumeration.PaymentType;
 import com.griddynamics.gridhub.payment.mapper.resultSetToModel.ResultSetPaypalMapper;
 import com.griddynamics.gridhub.payment.model.Paypal;
