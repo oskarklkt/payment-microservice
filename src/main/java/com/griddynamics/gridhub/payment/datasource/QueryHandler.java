@@ -32,7 +32,6 @@ public class QueryHandler<T extends PaymentMethod> {
         }
     }
 
-    //will be deleted soon
     @SneakyThrows
     @Generated
     public void execute(String query, Consumer<PreparedStatement> statementConsumer) {

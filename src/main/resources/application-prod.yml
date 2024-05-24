@@ -1,4 +1,0 @@
-db:
-  username: ${DB_PROD_USERNAME}
-  password: ${DB_PROD_PASSWORD}
-  url: ${DB_PROD_URL}

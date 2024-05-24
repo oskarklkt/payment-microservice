@@ -1,19 +1,18 @@
 package com.griddynamics.gridhub.payment.datasource;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 
 @Getter
-@Setter
+@Component
+@AllArgsConstructor
 public class Database {
 
     private HikariDataSource dataSource;
-    private String url;
-    private String username;
-    private String password;
 
     @SneakyThrows
     public Connection getConnection() {
